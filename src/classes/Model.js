@@ -1,17 +1,6 @@
 class Model {
   constructor() {
-    this.todos = [
-      {
-        id: 1,
-        text: "Learn HTML",
-        complete: true,
-      },
-      {
-        id: 2,
-        text: "Learn JavaScript",
-        complete: false,
-      },
-    ];
+    this.todos = JSON.parse(localStorage.getItem("todos")) || [];
   }
 
   addTodo(todoText) {
@@ -21,10 +10,12 @@ class Model {
       complete: false,
     };
     this.todos.push(newTodo);
+    this._commit();
   }
 
   deleteTodo(id) {
     this.todos = this.todos.filter((item) => item.id !== +id);
+    this._commit();
   }
 
   toggleTodo(id) {
@@ -33,6 +24,7 @@ class Model {
         ? { id: item.id, text: item.text, complete: !item.complete }
         : item
     );
+    this._commit();
   }
 
   editTodo(id, todoText) {
@@ -41,6 +33,11 @@ class Model {
         ? { id: item.id, text: todoText, complete: item.complete }
         : item
     );
+    this._commit();
+  }
+
+  _commit() {
+    localStorage.setItem("todos", JSON.stringify(this.todos));
   }
 }
 

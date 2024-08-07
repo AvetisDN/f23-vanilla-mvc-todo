@@ -18,6 +18,9 @@ class View {
     this.appContainer.append(this.formContainer);
     this.appContainer.append(this.listContainer);
     this.app.append(this.appContainer);
+
+    this._tempText = "";
+    this._bindInput();
   }
 
   createElement(tag, className) {
@@ -57,6 +60,8 @@ class View {
         checkbox.type = "checkbox";
         checkbox.checked = item.complete;
         const span = this.createElement("span");
+        span.contentEditable = true;
+        span.classList.add("editable");
         span.textContent = item.text;
         if (item.complete) {
           li.classList.add("is-completed");
@@ -101,7 +106,23 @@ class View {
     });
   }
 
-  bindEditTodo(handler) {}
+  _bindInput() {
+    this.listContainer.addEventListener("input", (event) => {
+      if (event.target.classList.contains("editable")) {
+        this._tempText = event.target.textContent;
+      }
+    });
+  }
+
+  bindEditTodo(handler) {
+    this.listContainer.addEventListener("focusout", (event) => {
+      if (this._tempText) {
+        handler(+event.target.parentElement.id, this._tempText);
+
+        this._tempText = "";
+      }
+    });
+  }
 }
 
 export default View;

@@ -8,7 +8,7 @@ class Controller {
     this.view.bindAddTodo(this.handleAddTodo);
     this.view.bindDeleteTodo(this.handleDeleteTodo);
     this.view.bindToggleTodo(this.handleToggleTodo);
-    // this.view.bindEditTodo(this.handleEditTodo);
+    this.view.bindEditTodo(this.handleEditTodo);
   }
 
   onTodoListChanged(todos) {
